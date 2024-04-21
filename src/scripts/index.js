@@ -33,7 +33,7 @@ createCards();
 
 //Profile
 
-function CardValue() {
+function EditValue() {
   formEditName.value = nameInput.textContent;
   formEditeDescription.value = jobInput.textContent;
 }
@@ -51,7 +51,7 @@ popupTypeEdit.addEventListener('submit', handleFormEdit);
 
 profileEditBtn.addEventListener('click', function() {
   openModal(popupTypeEdit);
-  CardValue();
+  EditValue();
   }
 );
 
