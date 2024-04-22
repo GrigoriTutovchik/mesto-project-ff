@@ -10,7 +10,7 @@ export function closeModal(modal) {
 
 function handleCloseByOverlayClick(evt) {
   if (evt.target === evt.currentTarget) {
-    closeModal(document.querySelector('.popup_is-opened'));
+    closeModal(evt.target);
   }
 }
 
@@ -21,9 +21,7 @@ function handleCloseByEsc(evt){
 }
 
 function handleCloseByBtn(evt) {
-  if(evt.target.classList.contains('popup__close')) {
-    closeModal(document.querySelector('.popup_is-opened'));
-    }
+  closeModal(evt.target.closest('.popup_is-opened'));
 }
 
 export function setCloseModalByClickListeners(popupList) {
