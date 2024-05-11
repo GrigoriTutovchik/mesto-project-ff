@@ -1,14 +1,11 @@
 import { requestSendLike,requestRemoveLike } from "./api";
 import { openModal } from "./modal";
 
-// @todo: Темплейт карточки
-const cardTemplate = document.querySelector('#card-template').content;
-
 export let deletedCardId
 export let deletedCard
 export const popupConfirmDelete = document.querySelector('.popup_type_confirm');
+const cardTemplate = document.querySelector('#card-template').content;
 
-// @todo: Функция создания карточки
 export function createCard(cardContent, functions, userId) {
   const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
   const cardDeleteBtn = cardItem.querySelector('.card__delete-button');

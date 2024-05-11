@@ -49,7 +49,7 @@ const functions = {
   likeCard,
   openImageModal
 }
-////////////////////
+
 function renderCard(card, method = 'prepend') {
   const cardElem = createCard(card, functions, userId);
   cardContainers[method](cardElem);
@@ -69,9 +69,6 @@ function NewCardSubmit(evt) {
 }
 
 popupTypeNewCard.addEventListener('submit',NewCardSubmit);
-////////////////
-
-////////////////
 
 function fillProfileFormInputs() {
   formEditName.value = profileName.textContent;
@@ -106,7 +103,6 @@ profileEditBtn.addEventListener('click', function() {
 );
 
 popupTypeEdit.addEventListener('submit', profileFormSubmit);
-///////////////////
 
 function openImageModal(link, title) {
   popupImage.src = link;
@@ -116,8 +112,6 @@ function openImageModal(link, title) {
 }
 
 setCloseModalByClickListeners(allPopups);
-////////////////////
-
 
 function confirmDelete(evt) {
   function makeRequest() {
@@ -127,13 +121,10 @@ function confirmDelete(evt) {
       deleteCard(deletedCard);
     });
   }
-
   handleSubmit(makeRequest, evt, 'Удаление...');
 }
 
 popupConfirmDelete.addEventListener('submit', confirmDelete);
-
-////////////////////
 
 function renderLoading(isLoading, button, buttonText='Сохранить', loadingText='Сохранение...') {
   if(isLoading) {
@@ -147,7 +138,6 @@ function handleSubmit(request, evt, loadingText='Сохранение...') {
   evt.preventDefault();
   const submitButton = evt.submitter;
   const initialText = submitButton.textContent;
-
   renderLoading(true, submitButton, initialText, loadingText);
   request()
   .then(() => evt.target.reset())
@@ -156,8 +146,6 @@ function handleSubmit(request, evt, loadingText='Сохранение...') {
   })
   .finally(() => renderLoading(false, submitButton, initialText));
 }
-
-//////////////////////
 
 function FormAvatar(link) {
   profileImage.style = `background-image: url('${link}')`
@@ -179,7 +167,6 @@ function ProfileAvatarSubmit(evt) {
 }
 
 popupUpdateAvatar.addEventListener('submit', ProfileAvatarSubmit);
-//////////////////////
 
 Promise.all([requestProfileInfo(), getInitialCards()])
 .then(([cardContent, info]) => {
