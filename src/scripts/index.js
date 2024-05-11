@@ -3,6 +3,7 @@ import { createCard,deleteCard,popupConfirmDelete,deletedCardId,deletedCard,like
 import { openModal,closeModal, setCloseModalByClickListeners} from './modal';
 import {clearValidation, enableValidation} from "./validation";
 import { requestProfileInfo,getInitialCards,requestUpdateUserInfo,requestAddNewCard,requestDeleteCard,requestEditAvatar} from './api';
+import { renderLoading } from './utils';
 
 let userId=''
 
@@ -44,14 +45,14 @@ const validationConfig = {
 
 enableValidation(validationConfig);
 
-const functions = {
+const cardHandlers = {
   deleteCard,
   likeCard,
   openImageModal
 }
 
 function renderCard(card, method = 'prepend') {
-  const cardElem = createCard(card, functions, userId);
+  const cardElem = createCard(card, cardHandlers, userId);
   cardContainers[method](cardElem);
 }
 
@@ -60,7 +61,7 @@ function handleFormCard(cardContent) {
   closeModal(popupTypeNewCard);
 }
 
-function NewCardSubmit(evt) {
+function submitAddCardForm(evt) {
   function makeRequest() {
     return requestAddNewCard(cardNameInput.value, cardLinkInput.value)
     .then(cardData => handleFormCard(cardData));
@@ -68,7 +69,7 @@ function NewCardSubmit(evt) {
   handleSubmit(makeRequest, evt, 'Созданение...');
 }
 
-popupTypeNewCard.addEventListener('submit',NewCardSubmit);
+popupTypeNewCard.addEventListener('submit',submitAddCardForm);
 
 function fillProfileFormInputs() {
   formEditName.value = profileName.textContent;
@@ -126,14 +127,6 @@ function confirmDelete(evt) {
 
 popupConfirmDelete.addEventListener('submit', confirmDelete);
 
-function renderLoading(isLoading, button, buttonText='Сохранить', loadingText='Сохранение...') {
-  if(isLoading) {
-    button.textContent = loadingText;
-  } else {
-    button.textContent = buttonText;
-  }
-}
-
 function handleSubmit(request, evt, loadingText='Сохранение...') {
   evt.preventDefault();
   const submitButton = evt.submitter;
@@ -147,7 +140,7 @@ function handleSubmit(request, evt, loadingText='Сохранение...') {
   .finally(() => renderLoading(false, submitButton, initialText));
 }
 
-function FormAvatar(link) {
+function saveAvatarData(link) {
   profileImage.style = `background-image: url('${link}')`
   closeModal(popupUpdateAvatar);
 }
@@ -158,15 +151,15 @@ profileImage.addEventListener('click', () => {
   openModal(popupUpdateAvatar);
 });
 
-function ProfileAvatarSubmit(evt) {
+function submitEditAvatarForm(evt) {
   function makeRequest() {
     return requestEditAvatar(inputUpdateAvatar.value)
-    .then(userData => FormAvatar(userData.avatar))
+    .then(userData => saveAvatarData(userData.avatar))
   }
   handleSubmit(makeRequest, evt);
 }
 
-popupUpdateAvatar.addEventListener('submit', ProfileAvatarSubmit);
+popupUpdateAvatar.addEventListener('submit', submitEditAvatarForm);
 
 Promise.all([requestProfileInfo(), getInitialCards()])
 .then(([cardContent, info]) => {

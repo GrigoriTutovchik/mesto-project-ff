@@ -6,7 +6,7 @@ export let deletedCard
 export const popupConfirmDelete = document.querySelector('.popup_type_confirm');
 const cardTemplate = document.querySelector('#card-template').content;
 
-export function createCard(cardContent, functions, userId) {
+export function createCard(cardContent, cardHandlers, userId) {
   const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
   const cardDeleteBtn = cardItem.querySelector('.card__delete-button');
   const cardImage = cardItem.querySelector('.card__image');
@@ -34,7 +34,7 @@ export function createCard(cardContent, functions, userId) {
     openModal(popupConfirmDelete);
   })
   
-  cardImage.addEventListener('click', () => functions.openImageModal(cardContent.link, cardContent.name));
+  cardImage.addEventListener('click', () => cardHandlers.openImageModal(cardContent.link, cardContent.name));
 
   return cardItem;
 }
